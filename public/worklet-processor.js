@@ -12,7 +12,9 @@ class DecibelProcessor extends AudioWorkletProcessor {
         channelData.reduce((sum, value) => sum + value * value, 0) /
           channelData.length
       );
-      const decibel = 20 * Math.log10(rms || 1e-8) + 150;
+
+      // Calculate decibel, ensuring we don't get -Infinity for very small values
+      const decibel = 20 * Math.log10(rms || 1e-5) + 100;
 
       if (decibel > this.maxDecibel) {
         this.maxDecibel = decibel;
